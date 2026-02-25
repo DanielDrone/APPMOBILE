@@ -24,6 +24,9 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
+      - name: Check Node Version
+        run: node -v
+
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
