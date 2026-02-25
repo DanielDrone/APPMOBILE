@@ -27,7 +27,7 @@ const Forecast = ({ data }) => {
                             <p className="font-semibold text-lg capitalize">{dayName}</p>
                             <p className="text-xs opacity-80 mb-2">{dayDate}</p>
                             <img
-                                src={`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
+                                src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
                                 alt={day.weather[0].description}
                                 className="w-12 h-12 my-1 drop-shadow-sm"
                             />

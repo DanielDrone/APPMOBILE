@@ -4,7 +4,7 @@ const WeatherCard = ({ data }) => {
   if (!data || !data.main) return null;
 
   const { name, main, weather, wind, sys } = data;
-  const iconUrl = `http://openweathermap.org/img/wn/${weather[0].icon}@4x.png`;
+  const iconUrl = `https://openweathermap.org/img/wn/${weather[0].icon}@4x.png`;
 
   return (
     <div className="w-full max-w-md bg-white/20 backdrop-blur-lg rounded-3xl p-8 text-white shadow-2xl border border-white/10 relative overflow-hidden">
