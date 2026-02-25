@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ClimaApp",
+  "name": "Clima y Agenda App",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,8 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#4a90e2",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "description": "Una aplicación para ver el clima y gestionar tu agenda."
 }

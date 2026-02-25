@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">clima-app</string>
+    <string name="title_activity_main">clima-app</string>
+    <string name="package_name">com.daniel.clima</string>
+    <string name="custom_url_scheme">com.daniel.clima</string>
+</resources>
