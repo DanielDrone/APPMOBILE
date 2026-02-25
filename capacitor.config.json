@@ -1,0 +1,6 @@
+{
+    "appId": "com.daniel.clima",
+    "appName": "clima-app",
+    "webDir": "build",
+    "bundledWebRuntime": false
+}
