@@ -1,27 +1,22 @@
 // src/index.js
-
 import React from 'react';
-// Usamos createRoot, el API moderno de React 18
+// 1. Importaciones al inicio (Soluciona el error 'import/first')
 import { createRoot } from 'react-dom/client'; 
-
-import App from './App'; // Importa el componente Dashboard (App.js)
-// Importa tus estilos globales (si los tienes)
+import App from './App'; // <--- DEBE ESTAR AQUÍ para que App esté definida (Soluciona 'no-undef')
 import './index.css'; 
-// NOTA: Si usas Tailwind CSS, asegúrate de que esté configurado en tu proyecto. 
-// Para este código, asumimos que Tailwind CSS está disponible para las clases de estilo.
 
-
-// 1. Encontrar el elemento DOM raíz
+// Localizar el contenedor DOM
 const container = document.getElementById('root'); 
 
-// 2. Crear el Root (Raíz) de React
-const root = createRoot(container); 
+// 2. Lógica para crear y renderizar la aplicación
+if (container) {
+  const root = createRoot(container); 
 
-// 3. Renderizar el componente principal
-// React.StrictMode ayuda a encontrar problemas de código en desarrollo
-root.render(
-  <React.StrictMode>
-    <App /> 
-  </React.StrictMode>
-);
-
+  root.render(
+    <React.StrictMode>
+      <App /> {/* Ahora App está definida correctamente */}
+    </React.StrictMode>
+  );
+} else {
+  console.error("No se encontró el elemento con id 'root'. Asegúrate de que tu index.html lo contenga.");
+}
