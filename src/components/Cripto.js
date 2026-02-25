@@ -13,7 +13,7 @@ const Cripto = () => {
         btc: { symbol: '₿', name: 'BTC' }
     };
 
-    const fetchCryptos = async () => {
+    const fetchCryptos = React.useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -32,11 +32,11 @@ const Cripto = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [currency]);
 
     useEffect(() => {
         fetchCryptos();
-    }, [currency]);
+    }, [fetchCryptos]);
 
     const formatPrice = (price) => {
         if (price >= 1) {
@@ -74,8 +74,8 @@ const Cripto = () => {
                             key={key}
                             onClick={() => setCurrency(key)}
                             className={`px-4 py-2 rounded-lg font-semibold transition-all duration-200 ${currency === key
-                                    ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-lg shadow-yellow-500/50'
-                                    : 'bg-white/10 hover:bg-white/20 text-gray-300'
+                                ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-lg shadow-yellow-500/50'
+                                : 'bg-white/10 hover:bg-white/20 text-gray-300'
                                 }`}
                         >
                             {curr.symbol} {curr.name}
@@ -142,8 +142,8 @@ const Cripto = () => {
                                         <p className="text-sm text-gray-400 mb-1">24h</p>
                                         <p
                                             className={`text-xl font-bold ${crypto.price_change_percentage_24h >= 0
-                                                    ? 'text-green-400'
-                                                    : 'text-red-400'
+                                                ? 'text-green-400'
+                                                : 'text-red-400'
                                                 }`}
                                         >
                                             {crypto.price_change_percentage_24h >= 0 ? '▲' : '▼'}{' '}
