@@ -49,7 +49,7 @@ const Users = () => {
         setUpdateError(null);
 
         try {
-            const response = await fetch('http://localhost:5000/update-password', {
+            const response = await fetch('https://server-tlnp.onrender.com/update-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
