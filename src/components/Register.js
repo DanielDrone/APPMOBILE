@@ -6,10 +6,15 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [notification, setNotification] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (isLoading) return;
+
+        setIsLoading(true);
         setError('');
 
         try {
@@ -24,18 +29,31 @@ const Register = () => {
             const data = await response.json();
 
             if (response.ok) {
-                navigate('/'); // Redirect to login
+                setNotification('Información mandada');
+                setTimeout(() => {
+                    navigate('/'); // Redirect to login
+                }, 2000);
             } else {
                 setError(data.message || 'Registration failed');
+                setIsLoading(false);
             }
         } catch (err) {
             setError('Error connecting to server');
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-600 via-teal-700 to-cyan-800 p-4 sm:p-6 lg:p-8">
-            <div className="bg-white/95 backdrop-blur-sm p-6 sm:p-10 rounded-2xl shadow-2xl w-full max-w-md border border-white/20 transform transition-all">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-600 via-teal-700 to-cyan-800 p-4 sm:p-6 lg:p-8 relative">
+            {notification && (
+                <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-50 animate-bounce-in">
+                    <div className="bg-emerald-500 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center space-x-3 border-2 border-white/20 backdrop-blur-md">
+                        <span className="text-2xl">✅</span>
+                        <span className="font-black tracking-wide text-lg">Información mandada</span>
+                    </div>
+                </div>
+            )}
+            <div className={`bg-white/95 backdrop-blur-sm p-6 sm:p-10 rounded-2xl shadow-2xl w-full max-w-md border border-white/20 transform transition-all ${isLoading ? 'opacity-75 pointer-events-none' : ''}`}>
                 <div className="text-center mb-10">
                     <div className="inline-block p-3 bg-emerald-100 rounded-2xl mb-4">
                         <span className="text-4xl">📝</span>
@@ -98,10 +116,18 @@ const Register = () => {
                     </div>
 
                     <button
-                        className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black py-4 rounded-xl shadow-lg shadow-emerald-500/30 transform transition-all active:scale-95 text-lg mt-4"
+                        disabled={isLoading}
+                        className={`w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black py-4 rounded-xl shadow-lg shadow-emerald-500/30 transform transition-all active:scale-95 text-lg mt-4 flex items-center justify-center space-x-3 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         type="submit"
                     >
-                        Crear Cuenta
+                        {isLoading ? (
+                            <>
+                                <span className="animate-spin text-xl">⏳</span>
+                                <span>Procesando...</span>
+                            </>
+                        ) : (
+                            <span>Crear Cuenta</span>
+                        )}
                     </button>
 
                     <div className="pt-4 text-center border-t border-gray-100 mt-6">
