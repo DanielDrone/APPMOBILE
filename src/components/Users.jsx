@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Users = () => {
+const Users = ({ darkMode }) => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -78,31 +78,31 @@ const Users = () => {
     };
 
     return (
-        <div className="h-full overflow-y-auto bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 text-white p-6">
+        <div className={`h-full overflow-y-auto p-6 transition-colors duration-300 ${darkMode ? 'bg-gray-950 text-white' : 'bg-gray-50 text-gray-900'}`}>
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-4xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
-                        👥 Usuarios Registrados
+                    <h1 className={`text-4xl font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        👥 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Usuarios</span> Registrados
                     </h1>
-                    <p className="text-gray-300">Lista de usuarios con contraseñas hasheadas</p>
+                    <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Gestión de accesos y seguridad de cuenta</p>
                 </div>
 
                 {/* Loading State */}
                 {loading && (
                     <div className="flex justify-center items-center h-64">
-                        <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin" />
+                        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
                     </div>
                 )}
 
                 {/* Error State */}
                 {error && (
-                    <div className="bg-red-500/20 border border-red-500 rounded-xl p-6 text-center">
-                        <h3 className="font-bold text-lg mb-2">⚠️ Error</h3>
-                        <p>{error}</p>
+                    <div className={`${darkMode ? 'bg-red-500/10 border-red-500/20' : 'bg-red-50 border-red-200'} border rounded-xl p-8 text-center`}>
+                        <h3 className={`font-bold text-lg mb-2 ${darkMode ? 'text-white' : 'text-red-800'}`}>⚠️ Error</h3>
+                        <p className={darkMode ? 'text-gray-400' : 'text-red-600'}>{error}</p>
                         <button
                             onClick={fetchUsers}
-                            className="mt-4 px-6 py-2 bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+                            className="mt-4 px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
                         >
                             Reintentar
                         </button>
@@ -111,31 +111,35 @@ const Users = () => {
 
                 {/* Users Table */}
                 {!loading && !error && (
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white/5 backdrop-blur-lg rounded-lg border border-white/20">
-                            <thead>
-                                <tr className="bg-white/10">
-                                    <th className="px-4 py-2 text-left text-gray-300">Usuario</th>
-                                    <th className="px-4 py-2 text-left text-gray-300">Correo</th>
-                                    <th className="px-4 py-2 text-left text-gray-300">Password (hash)</th>
-                                    <th className="px-4 py-2 text-left text-gray-300">Acciones</th>
+                    <div className={`overflow-x-auto rounded-2xl shadow-xl border ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+                        <table className="min-w-full divide-y divide-gray-800">
+                            <thead className={darkMode ? 'bg-gray-800/50' : 'bg-gray-50'}>
+                                <tr>
+                                    <th className={`px-6 py-4 text-left text-xs font-black uppercase tracking-wider ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Usuario</th>
+                                    <th className={`px-6 py-4 text-left text-xs font-black uppercase tracking-wider ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Correo</th>
+                                    <th className={`px-6 py-4 text-left text-xs font-black uppercase tracking-wider ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Password (hash)</th>
+                                    <th className={`px-6 py-4 text-center text-xs font-black uppercase tracking-wider ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className={`divide-y ${darkMode ? 'divide-gray-800' : 'divide-gray-100'}`}>
                                 {users.map((u, idx) => (
                                     <tr
                                         key={idx}
-                                        className="border-b border-white/10 hover:bg-white/15 transition-colors"
+                                        className={`transition-colors ${darkMode ? 'hover:bg-gray-800/50' : 'hover:bg-blue-50/30'}`}
                                     >
-                                        <td className="px-4 py-2 text-gray-200">{u.username}</td>
-                                        <td className="px-4 py-2 text-gray-200">{u.email}</td>
-                                        <td className="px-4 py-2 text-gray-200 break-all font-mono text-xs">{u.password}</td>
-                                        <td className="px-4 py-2">
+                                        <td className={`px-6 py-4 whitespace-now font-bold ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>{u.username}</td>
+                                        <td className={`px-6 py-4 whitespace-nowrap ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{u.email}</td>
+                                        <td className="px-6 py-4">
+                                            <div className={`max-w-xs truncate font-mono text-[10px] px-2 py-1 rounded ${darkMode ? 'bg-black/30 text-green-500' : 'bg-gray-100 text-green-700'}`}>
+                                                {u.password}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-center">
                                             <button
                                                 onClick={() => handleModifyClick(u.email)}
-                                                className="px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded text-sm transition-colors"
+                                                className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-black rounded-xl transition-all shadow-lg shadow-blue-500/20 active:scale-95 uppercase tracking-tighter"
                                             >
-                                                Modificar
+                                                ✏️ Modificar
                                             </button>
                                         </td>
                                     </tr>
@@ -147,69 +151,77 @@ const Users = () => {
 
                 {/* Refresh Button */}
                 {!loading && !error && (
-                    <div className="mt-8 text-center">
+                    <div className="mt-12 text-center">
                         <button
                             onClick={fetchUsers}
-                            className="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 rounded-xl font-bold shadow-lg transform transition-all duration-200 hover:-translate-y-1 hover:shadow-purple-500/50"
+                            className={`px-10 py-4 rounded-2xl font-black shadow-xl transition-all transform hover:-translate-y-1 active:scale-95 ${darkMode
+                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/20'
+                                : 'bg-gray-900 text-white shadow-gray-900/20'
+                                }`}
                         >
-                            🔄 Actualizar Lista
+                            🔄 ACTUALIZAR LISTA
                         </button>
                     </div>
                 )}
 
                 {/* Modify Password Modal */}
                 {isModalOpen && (
-                    <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 p-4">
-                        <div className="bg-gray-800 border border-white/10 rounded-xl p-6 w-full max-w-md shadow-2xl">
-                            <h2 className="text-2xl font-bold mb-4 text-white">Modificar Contraseña</h2>
-                            <p className="text-gray-400 mb-4 text-sm">Usuario: {selectedUserEmail}</p>
+                    <div className="fixed inset-0 bg-black/80 flex justify-center items-center z-50 p-4 backdrop-blur-sm">
+                        <div className={`border rounded-2xl p-8 w-full max-w-md shadow-2xl transform transition-all ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'}`}>
+                            <h2 className={`text-3xl font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Nueva Contraseña</h2>
+                            <p className="text-gray-500 mb-6 text-sm font-bold">Cuenta: {selectedUserEmail}</p>
 
-                            <form onSubmit={handleUpdatePassword} className="space-y-4">
+                            <form onSubmit={handleUpdatePassword} className="space-y-5">
                                 <div>
-                                    <label className="block text-gray-300 mb-1 text-sm">Contraseña Anterior</label>
+                                    <label className={`block mb-1.5 text-xs font-black uppercase tracking-widest ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Contraseña Anterior</label>
                                     <input
                                         type="password"
                                         value={currentPassword}
                                         onChange={(e) => setCurrentPassword(e.target.value)}
-                                        className="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:border-blue-500 focus:outline-none"
+                                        className={`w-full rounded-xl p-3 font-bold focus:ring-2 focus:ring-blue-500 focus:outline-none border transition-all ${darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'
+                                            }`}
+                                        placeholder="••••••••"
                                         required
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-gray-300 mb-1 text-sm">Nueva Contraseña</label>
+                                    <label className={`block mb-1.5 text-xs font-black uppercase tracking-widest ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Nueva Contraseña</label>
                                     <input
                                         type="password"
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
-                                        className="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:border-blue-500 focus:outline-none"
+                                        className={`w-full rounded-xl p-3 font-bold focus:ring-2 focus:ring-blue-500 focus:outline-none border transition-all ${darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'
+                                            }`}
+                                        placeholder="Min. 8 caracteres"
                                         required
                                     />
                                 </div>
 
                                 {updateError && (
-                                    <div className="p-2 bg-red-500/20 border border-red-500 rounded text-red-200 text-sm">
-                                        {updateError}
+                                    <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-xs font-bold">
+                                        ❌ {updateError}
                                     </div>
                                 )}
                                 {updateMessage && (
-                                    <div className="p-2 bg-green-500/20 border border-green-500 rounded text-green-200 text-sm">
-                                        {updateMessage}
+                                    <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-xl text-green-500 text-xs font-bold">
+                                        ✅ {updateMessage}
                                     </div>
                                 )}
 
-                                <div className="flex justify-end space-x-3 mt-6">
+                                <div className="flex gap-4 mt-8">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}
-                                        className="px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded text-white transition-colors"
+                                        className={`flex-1 py-3 rounded-xl font-black text-sm transition-colors ${darkMode ? 'bg-gray-800 text-gray-400 hover:bg-gray-700' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                                            }`}
                                     >
-                                        Cancelar
+                                        CANCELAR
                                     </button>
                                     <button
                                         type="submit"
-                                        className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded text-white transition-colors font-bold"
+                                        className="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-black text-sm shadow-lg shadow-blue-500/30 transition-all active:scale-95"
                                     >
-                                        Actualizar
+                                        GUARDAR
                                     </button>
                                 </div>
                             </form>
@@ -220,5 +232,6 @@ const Users = () => {
         </div>
     );
 };
+
 
 export default Users;

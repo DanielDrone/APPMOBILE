@@ -7,7 +7,7 @@ import LocationSection from '../../componets/LocationSection';
 
 const DEFAULT_CITY = 'Madrid';
 
-function ClimaApp() {
+function ClimaApp({ darkMode }) {
     const [weatherData, setWeatherData] = useState(null);
     const [forecastData, setForecastData] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -46,36 +46,40 @@ function ClimaApp() {
     };
 
     return (
-        <div className="h-full bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 font-sans text-white overflow-y-auto">
+        <div className={`h-full font-sans transition-colors duration-300 overflow-y-auto ${darkMode
+            ? 'bg-gray-950 text-white'
+            : 'bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 text-white'
+            }`}>
 
-            <Header onCityChange={handleCityChange} />
+            <Header onCityChange={handleCityChange} darkMode={darkMode} />
 
             <main className="container mx-auto p-4 flex flex-col items-center pb-20">
 
                 {loading && (
                     <div className="mt-20 flex flex-col items-center">
                         <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
-                        <p className="text-xl font-medium animate-pulse">Cargando...</p>
+                        <p className="text-xl font-medium animate-pulse">Buscando pronóstico...</p>
                     </div>
                 )}
 
                 {error && (
-                    <div className="mt-8 p-6 bg-red-500/80 backdrop-blur-md text-white max-w-md w-full rounded-2xl shadow-xl border border-red-400">
-                        <h3 className="font-bold text-lg mb-2">⚠️ Error</h3>
-                        <p>{error}</p>
+                    <div className={`mt-8 p-6 backdrop-blur-md max-w-md w-full rounded-2xl shadow-xl border ${darkMode ? 'bg-red-900/30 border-red-500/50' : 'bg-red-500/80 border-red-400'}`}>
+                        <h3 className="font-bold text-lg mb-2 text-white">⚠️ Error</h3>
+                        <p className="text-white">{error}</p>
                     </div>
                 )}
 
                 {!loading && weatherData && (
                     <>
-                        <WeatherCard data={weatherData} />
-                        {forecastData && <Forecast data={forecastData} />}
-                        <LocationSection data={weatherData} />
+                        <WeatherCard data={weatherData} darkMode={darkMode} />
+                        {forecastData && <Forecast data={forecastData} darkMode={darkMode} />}
+                        <LocationSection data={weatherData} darkMode={darkMode} />
                     </>
                 )}
             </main>
         </div>
     );
 }
+
 
 export default ClimaApp;

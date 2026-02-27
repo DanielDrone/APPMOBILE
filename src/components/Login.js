@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -25,6 +25,7 @@ const Login = () => {
             if (response.ok) {
                 // Save user info/token if needed
                 localStorage.setItem('user', JSON.stringify(data.user));
+                if (onLoginSuccess) onLoginSuccess();
                 navigate('/dashboard');
             } else {
                 setError(data.message || 'Login failed');
@@ -33,6 +34,7 @@ const Login = () => {
             setError('Error connecting to server');
         }
     };
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 p-4 sm:p-6 lg:p-8">
